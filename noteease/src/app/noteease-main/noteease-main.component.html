@@ -53,9 +53,9 @@
 
   <!-- Note Editor Modal -->
   <div class="modal-backdrop" *ngIf="showEditor">
-    <div class="modal">
+    <div class="modal" *ngIf="editNote">
       <h2>{{ modalHeading }}</h2>
-      <form (ngSubmit)="saveNote(editNote)">
+      <form (ngSubmit)="saveNote(editNote!)">
         <input
           type="text"
           class="input-title"
