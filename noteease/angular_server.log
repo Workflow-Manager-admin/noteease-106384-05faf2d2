@@ -43,3 +43,25 @@ main.server.mjs     | main.server | 800 bytes |
 
 Application bundle generation complete. [0.465 seconds]
 
+9:32:48 AM [vite] (ssr) ✨ new dependencies optimized: @angular/forms
+9:32:48 AM [vite] (ssr) ✨ optimized dependencies changed. reloading
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.134 seconds]
+
+✘ [ERROR] NG8001: 'app-noteease-main' is not a known element:
+1. If 'app-noteease-main' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-noteease-main' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message. [plugin angular-compiler]
+
+    src/app/app.component.html:0:0:
+      0 │ 
+        ╵ ^
+
+  Error occurs in the template of component AppComponent.
+
+    src/app/app.component.ts:8:15:
+      8 │   templateUrl: './app.component.html',
+        ╵                ~~~~~~~~~~~~~~~~~~~~~~
+
+
