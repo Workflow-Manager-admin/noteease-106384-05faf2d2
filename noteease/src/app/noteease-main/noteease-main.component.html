@@ -1,0 +1,97 @@
+<div class="noteease-container">
+  <header>
+    <h1 class="title">NoteEase</h1>
+    <input
+      class="search-bar"
+      type="text"
+      placeholder="Search notes..."
+      [(ngModel)]="searchQuery"
+      (input)="onSearchInput($event)"
+    />
+  </header>
+  
+  <!-- Notes List Section -->
+  <div class="notes-list">
+    <div
+      class="note-card"
+      *ngFor="let note of filteredNotes; trackBy: note => note.id"
+      [class.pinned]="note.pinned"
+    >
+      <div class="note-header">
+        <h2 class="note-title">{{ note.title }}</h2>
+        <div class="note-actions">
+          <button class="pin-btn" [title]="note.pinned ? 'Unpin' : 'Pin'" (click)="togglePin(note)">
+            <span *ngIf="note.pinned">&#128204;</span>
+            <span *ngIf="!note.pinned">&#128392;</span>
+          </button>
+          <button class="edit-btn" title="Edit" (click)="editExistingNote(note)">&#9998;</button>
+          <button class="archive-btn" title="Archive/Unarchive" (click)="toggleArchive(note)">
+            <span *ngIf="!note.archived">&#128190;</span>
+            <span *ngIf="note.archived">&#8617;</span>
+          </button>
+          <button class="delete-btn" title="Delete" (click)="deleteNote(note)">&#128465;</button>
+        </div>
+      </div>
+      <div class="note-content">{{ note.content }}</div>
+      <div class="note-tags">
+        <span
+          class="tag"
+          *ngFor="let tag of note.tags"
+          [ngStyle]="{'background': categoryColorMap[tag] || '#d21959'}"
+        >
+          {{ tag }}
+        </span>
+      </div>
+    </div>
+    <div *ngIf="filteredNotes.length === 0" class="empty-msg">
+      No notes found.
+    </div>
+  </div>
+
+  <!-- Floating Add Button -->
+  <button class="fab" title="Add Note" (click)="openNewNote()">+</button>
+
+  <!-- Note Editor Modal -->
+  <div class="modal-backdrop" *ngIf="showEditor">
+    <div class="modal">
+      <h2>{{ editNote?.id && notes.some(n => n.id === editNote?.id) ? 'Edit Note' : 'New Note' }}</h2>
+      <form (ngSubmit)="saveNote(editNote)">
+        <input
+          type="text"
+          class="input-title"
+          required
+          maxlength="100"
+          [(ngModel)]="editNote.title"
+          name="title"
+          placeholder="Title"
+        />
+        <textarea
+          class="input-content"
+          [(ngModel)]="editNote.content"
+          name="content"
+          rows="5"
+          placeholder="Type your note here..."
+          required
+        ></textarea>
+        <div class="tags-input-group">
+          <input #tagInput type="text" class="tag-input" maxlength="24" placeholder="Add tag..." (keyup.enter)="addTagToEditNote(tagInput)"/>
+          <button type="button" class="add-tag-btn" (click)="addTagToEditNote(tagInput)">Add Tag</button>
+          <div class="edit-note-tags">
+            <span
+              class="tag"
+              *ngFor="let tag of editNote.tags; let i = index"
+              [ngStyle]="{'background': categoryColorMap[tag] || '#d21959'}"
+            >
+              {{ tag }}
+              <button type="button" class="remove-tag-btn" (click)="removeTagFromEditNote(i)">&times;</button>
+            </span>
+          </div>
+        </div>
+        <div class="editor-actions">
+          <button type="button" class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="save-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
