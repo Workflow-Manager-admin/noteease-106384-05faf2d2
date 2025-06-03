@@ -14,7 +14,7 @@
   <div class="notes-list">
     <div
       class="note-card"
-      *ngFor="let note of filteredNotes; trackBy: note => note.id"
+      *ngFor="let note of filteredNotes; trackBy: trackByNoteId"
       [class.pinned]="note.pinned"
     >
       <div class="note-header">
@@ -54,7 +54,7 @@
   <!-- Note Editor Modal -->
   <div class="modal-backdrop" *ngIf="showEditor">
     <div class="modal">
-      <h2>{{ editNote?.id && notes.some(n => n.id === editNote?.id) ? 'Edit Note' : 'New Note' }}</h2>
+      <h2>{{ modalHeading }}</h2>
       <form (ngSubmit)="saveNote(editNote)">
         <input
           type="text"

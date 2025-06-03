@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 /**
  * Note model for the NoteEase main container.
@@ -26,9 +28,14 @@ const CATEGORY_COLORS: string[] = [
   '#9C27B0', // Purple
 ];
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Make NoteeaseMainComponent a standalone Angular component, importing necessary modules.
+ */
 @Component({
   selector: 'app-noteease-main',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './noteease-main.component.html',
   styleUrls: ['./noteease-main.component.css']
 })
@@ -225,5 +232,17 @@ export class NoteeaseMainComponent {
   cancelEdit() {
     this.showEditor = false;
     this.editNote = null;
+  }
+
+  // PUBLIC_INTERFACE
+  trackByNoteId(index: number, note: Note): number {
+    return note.id;
+  }
+
+  // PUBLIC_INTERFACE
+  get modalHeading(): string {
+    if (!this.editNote) return '';
+    const isEdit = this.editNote.id && this.notes.some(n => n.id === this.editNote?.id);
+    return isEdit ? 'Edit Note' : 'New Note';
   }
 }
